@@ -28,7 +28,7 @@ const StartPage = () => {
     <TouchableWithoutFeedback onPress={code.dismissKeyboard}>
       <SafeAreaView style={styles.container}>
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={code.modalVisible}
           onRequestClose={() => {

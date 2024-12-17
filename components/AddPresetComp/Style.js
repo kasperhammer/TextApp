@@ -7,12 +7,13 @@ const Style = () => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor:'#0000007a',
     },
     modalView: {
       margin: 20,
       backgroundColor: 'white',
       borderRadius: 20,
-      padding: 35,
+ 
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: {
@@ -22,6 +23,14 @@ const Style = () => {
       shadowOpacity: 0.25,
       shadowRadius: 4,
       elevation: 5,
+    },
+    modalHeader: {
+      borderStyle: "solid",
+      borderWidth: 0,
+      borderBottomWidth:2,
+      borderColor: "#00B2FF",
+      width:'100%',
+    
     },
     button: {
       borderRadius: 20,
@@ -42,8 +51,13 @@ const Style = () => {
     modalText: {
       marginBottom: 15,
       textAlign: 'center',
+      fontWeight:'bold',
+      fontSize:20,
   
     },
+    errorText : {
+      color:'red',
+    }
     
   });
 };
