@@ -2,20 +2,20 @@ import { StyleSheet } from "react-native";
 
 const Style = () => {
   return StyleSheet.create({
-   
     centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor:'#0000007a',
+      display:"flex",
+      height:720,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#0000007a",
+
     },
     modalView: {
       margin: 20,
-      backgroundColor: 'white',
-      borderRadius: 20,
- 
-      alignItems: 'center',
-      shadowColor: '#000',
+      backgroundColor: "white",
+      borderRadius: 5,
+      alignItems: "center",
+      shadowColor: "#000",
       shadowOffset: {
         width: 0,
         height: 2,
@@ -23,42 +23,101 @@ const Style = () => {
       shadowOpacity: 0.25,
       shadowRadius: 4,
       elevation: 5,
+      height: 600,
+      position:"absolute",
+      
     },
-    modalHeader: {
-      borderStyle: "solid",
-      borderWidth: 0,
-      borderBottomWidth:2,
+    presetNavn: {
+      borderWidth: 2,
       borderColor: "#00B2FF",
-      width:'100%',
-    
+      borderRightWidth: 0,
+      borderLeftWidth: 0,
+      width: 320,
+    },
+    presetText: {
+      textAlign: "center",
+      fontSize: 25,
+      color: "black",
     },
     button: {
-      borderRadius: 20,
+      backgroundColor: "white",
+      borderWidth: 1,
       padding: 10,
       elevation: 2,
+      marginTop: 15,
+      width:150,
     },
-    buttonOpen: {
-      backgroundColor: '#F194FF',
-    },
-    buttonClose: {
-      backgroundColor: '#2196F3',
-    },
+
     textStyle: {
-      color: 'white',
-      fontWeight: 'bold',
-      textAlign: 'center',
+      textAlign: "center",
     },
     modalText: {
-      marginBottom: 15,
-      textAlign: 'center',
-      fontWeight:'bold',
-      fontSize:20,
-  
+      marginTop: 10,
+      marginBottom: 10,
+      textAlign: "center",
+      fontWeight: "bold",
+      fontSize: 20,
     },
-    errorText : {
-      color:'red',
-    }
-    
+    errorText: {
+      color: "red",
+    },
+    modalBody: {
+      width: 320,
+      height: 400,
+      alignItems: "center",
+     display:"flex",
+     justifyContent:"center",
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: "black",
+      width: 250,
+      marginTop: 15,
+      fontSize: 20,
+      textAlign: "center",
+    },
+    modalFooter: {
+      flex: 1,
+      justifyContent: "flex-end",
+    },
+    ModalFooterBorder: {
+      borderTopWidth: 2,
+      borderColor: "#00B2FF",
+
+      width: 320,
+    },
+    addPresetContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      marginVertical: 10,
+    },
+    addPresetButton: {
+      flexDirection: "row",
+      alignItems: "center",
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "#00B2FF",
+      borderRadius: 5,
+      height: 50,
+    },
+    addPresetText: {
+      color: "#00B2FF",
+      fontSize: 30,
+      paddingLeft: 10,
+      paddingRight: 10,
+    },
+    addPresetPlus: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+
+      backgroundColor: "#00B2FF",
+      height: 50,
+      width: 50,
+      borderTopRightRadius: 5,
+      borderBottomRightRadius: 5,
+    },
   });
 };
 
