@@ -1,50 +1,100 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Alert, Keyboard } from "react-native";
 
 const Code = (onClose) => {
-  const kvps = [];
+  const [presetNameString, onPresetNameString] = useState("");
+  const [kvps, setKvps] = useState([]); // Use state for kvps array
   const [nameString, onNameString] = useState("");
   const [numberString, onNumberString] = useState("");
   const [nameError, setNameError] = useState("");
   const [numberError, setNumberError] = useState("");
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+
+  const handleLongPress = (index) => {
+    setSelectedItemIndex(index); // Set the index of the selected item
+    Alert.alert(
+      "Delete Item",
+      "Are you sure you want to delete this item?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => setSelectedItemIndex(null),
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => deleteItem(index),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const deleteItem = (index) => {
+    const newKvps = [...kvps];
+    newKvps.splice(index, 1); // Remove the item at the given index
+    setKvps(newKvps);
+    setSelectedItemIndex(null); // Clear the selection
+  };
+
+  useEffect(() => {
+    // Add keyboard event listeners
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardVisible(true)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardVisible(false)
+    );
+
+    return () => {
+      // Remove listeners to prevent memory leaks
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  const removeKeyboard = () => {
+    Keyboard.dismiss(); // Dismiss the keyboard
+  };
   const handleBackdropPress = (event) => {
+    console.log("Close");
     if (event.target === event.currentTarget) {
       onClose();
     }
   };
 
   function AddObject() {
-    // Reset errors
     setNameError("");
     setNumberError("");
 
     let isValid = true;
 
-    // Validate nameString
     if (!nameString.trim()) {
-      setNameError("Navn er påkrævet"); // Name is required
+      setNameError("Navn er påkrævet");
       isValid = false;
     }
 
-    // Validate numberString
     if (!numberString.trim()) {
-      setNumberError("Nummer er påkrævet"); // Number is required
+      setNumberError("Nummer er påkrævet");
       isValid = false;
     } else if (!/^\d+$/.test(numberString)) {
-      setNumberError("Kun tal er tilladt"); // Only numbers are allowed
+      setNumberError("Kun tal er tilladt");
       isValid = false;
     }
 
     if (isValid) {
-      // Add to kvps
+      // Update the kvps state
       kvps.push({ name: nameString, number: numberString });
-
-      // Log for debugging
-      console.log("Added Object:", kvps);
+      setKvps(kvps);
 
       // Clear inputs after successful submission
       onNameString("");
       onNumberString("");
+      Keyboard.dismiss();
     }
   }
 
@@ -56,7 +106,16 @@ const Code = (onClose) => {
     nameError,
     numberError,
     handleBackdropPress,
+    handleLongPress,
+    deleteItem,
     AddObject,
+    kvps,
+    isKeyboardVisible,
+    setKeyboardVisible,
+    presetNameString,
+    onPresetNameString,
+    selectedItemIndex,
+    removeKeyboard,
   };
 };
 

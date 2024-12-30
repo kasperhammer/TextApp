@@ -3,12 +3,11 @@ import { StyleSheet } from "react-native";
 const Style = () => {
   return StyleSheet.create({
     centeredView: {
-      display:"flex",
-      height:720,
+      display: "flex",
+      height: 720,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#0000007a",
-
     },
     modalView: {
       margin: 20,
@@ -24,8 +23,7 @@ const Style = () => {
       shadowRadius: 4,
       elevation: 5,
       height: 600,
-      position:"absolute",
-      
+      position: "absolute",
     },
     presetNavn: {
       borderWidth: 2,
@@ -38,6 +36,7 @@ const Style = () => {
       textAlign: "center",
       fontSize: 25,
       color: "black",
+  
     },
     button: {
       backgroundColor: "white",
@@ -45,7 +44,7 @@ const Style = () => {
       padding: 10,
       elevation: 2,
       marginTop: 15,
-      width:150,
+      width: 150,
     },
 
     textStyle: {
@@ -64,9 +63,7 @@ const Style = () => {
     modalBody: {
       width: 320,
       height: 400,
-      alignItems: "center",
-     display:"flex",
-     justifyContent:"center",
+      
     },
     input: {
       borderWidth: 1,
@@ -118,6 +115,34 @@ const Style = () => {
       borderTopRightRadius: 5,
       borderBottomRightRadius: 5,
     },
+    listContainer: {
+     
+      flexShrink: 1, // Allows it to shrink to the size of its content
+      flexGrow: 0, // Prevents it from taking additional space
+      maxHeight: 200, // Optional: restrict max height
+      width: "100%", // Ensures it spans the full width
+     
+    },
+    listItem: {
+      backgroundColor: "#E7E7E7",
+      width: 320,
+      alignItems: "center",
+      marginTop: 10,
+    },
+    listText: {
+      fontSize: 30,
+      fontWeight: "light",
+    },
+    AddPerson: {
+      marginTop:10,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      flexGrow: 1, // Allows it to grow and take up remaining space
+      flexShrink: 0, // Prevents it from shrinking below its content size
+      width: "100%", // Ensures it spans the full width
+    },
+    
   });
 };
 
