@@ -36,9 +36,7 @@ const StartPage = () => {
             setModalVisible(!code.modalVisible);
           }}
         >
-            <AddPresetComp onClose={() => code.setModalVisible(false)}>
-
-            </AddPresetComp>
+            <AddPresetComp onClose={code.AddPreset}></AddPresetComp>
 
 
         </Modal>

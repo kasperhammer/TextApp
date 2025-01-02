@@ -10,8 +10,13 @@ import StartPage from "./pages/StartPage/StartPage";
 const Stack = createStackNavigator();
 
 export default function App() {
- const serviceCode = ServiceCode();
-serviceCode.CreateTabels();
+
+  const serviceCode = ServiceCode();
+
+useEffect(() => {
+  console.log("TEST !!!!!!!!!!!!!!!!!!!!!");
+  serviceCode.initDb();
+}, [])
 
  
   return (

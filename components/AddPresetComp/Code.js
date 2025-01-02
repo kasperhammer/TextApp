@@ -9,8 +9,15 @@ const Code = (onClose) => {
   const [nameError, setNameError] = useState("");
   const [numberError, setNumberError] = useState("");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+
+
+  const handlePress = (index) => {
+    let item = kvps[index];
+    onNameString(item.name);
+    onNumberString(item.number);
+ 
+  };
 
   const handleLongPress = (index) => {
     setSelectedItemIndex(index); // Set the index of the selected item
@@ -67,22 +74,27 @@ const Code = (onClose) => {
     }
   };
 
-  function AddObject() {
+  const AddObject = () => {
     setNameError("");
     setNumberError("");
 
     let isValid = true;
 
+    // Validate Name
     if (!nameString.trim()) {
       setNameError("Navn er påkrævet");
       isValid = false;
     }
 
+    // Validate Number
     if (!numberString.trim()) {
       setNumberError("Nummer er påkrævet");
       isValid = false;
     } else if (!/^\d+$/.test(numberString)) {
       setNumberError("Kun tal er tilladt");
+      isValid = false;
+    } else if (numberString.length !== 8) {
+      setNumberError("Nummer skal være 8 cifre langt");
       isValid = false;
     }
 
@@ -96,7 +108,12 @@ const Code = (onClose) => {
       onNumberString("");
       Keyboard.dismiss();
     }
-  }
+};
+
+const AddPreset = () => {
+  console.log("button Pressed");
+  onClose(kvps,presetNameString);
+};
 
   return {
     nameString,
@@ -116,6 +133,8 @@ const Code = (onClose) => {
     onPresetNameString,
     selectedItemIndex,
     removeKeyboard,
+    handlePress,
+    AddPreset
   };
 };
 

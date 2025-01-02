@@ -29,7 +29,8 @@ const Comp = ({ onClose }) => {
                 <Text style={style.modalText}>Opret Preset</Text>
               </View>
               <View style={style.presetNavn}>
-                <TextInput value={code.presetNameString}
+                <TextInput
+                  value={code.presetNameString}
                   onChangeText={code.onPresetNameString}
                   style={style.presetText}
                   placeholder="Insæt preset navn"
@@ -38,21 +39,20 @@ const Comp = ({ onClose }) => {
             </View>
             <View style={style.modalBody}>
               {!code.isKeyboardVisible && (
-             <FlatList
-             data={code.kvps}
-             keyExtractor={(item, index) => index.toString()}
-             renderItem={({ item, index }) => (
-               <TouchableOpacity
-                 onLongPress={() => code.handleLongPress(index)}
-                 style={[
-                   style.listItem
-                 ]}
-               >
-                 <Text style={style.listText}>{item.name}</Text>
-               </TouchableOpacity>
-             )}
-             style={style.listContainer}
-           />
+                <FlatList
+                  data={code.kvps}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({ item, index }) => (
+                    <TouchableOpacity
+                      onPress={() => code.handlePress(index)}
+                      onLongPress={() => code.handleLongPress(index)}
+                      style={[style.listItem]}
+                    >
+                      <Text style={style.listText}>{item.name}</Text>
+                    </TouchableOpacity>
+                  )}
+                  style={style.listContainer}
+                />
               )}
 
               <View style={style.AddPerson}>
@@ -90,8 +90,8 @@ const Comp = ({ onClose }) => {
               <View style={style.ModalFooterBorder}>
                 <View style={style.addPresetContainer}>
                   <TouchableOpacity
-                    onPress={() => code.setModalVisible(!code.modalVisible)}
                     style={style.addPresetButton}
+                    onPress={code.AddPreset} // Correctly call the function
                   >
                     <Text style={style.addPresetText}>Confirm Preset</Text>
                     <View style={style.addPresetPlus}>

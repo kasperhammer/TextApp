@@ -1,36 +1,52 @@
-import { useState, useEffect } from "react";
-import * as SQLite from 'expo-sqlite';
+import { useState } from "react";
+import * as SQLite from "expo-sqlite";
+
+var db;
 
 const ServiceCode = () => {
-    const [db, setDb] = useState(null);
+  const initDb = async () => {
+    db = await SQLite.openDatabaseAsync("PresetDb.db");
+    await CreateTabels(); // Pass the database directly
+  };
 
-    const initDb = async () => {
-        console.log("init");
-        setDb(await SQLite.openDatabaseAsync('testDb.db'));
-        console.log("init completed");
-    };
+  const CreateTabels = async () => {
+    await db.execAsync(` PRAGMA journal_mode = WAL; 
+        CREATE TABLE IF NOT EXISTS Presets (Id INTEGER PRIMARY KEY AUTOINCREMENT,Name TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS Persons (Id INTEGER PRIMARY KEY AUTOINCREMENT,Preset INTEGER NOT NULL,Name TEXT NOT NULL,
+        PhoneNumber TEXT NOT NULL,FOREIGN KEY (Preset) REFERENCES Presets (Id) ON DELETE CASCADE ON UPDATE CASCADE);`);
+  };
 
-    useEffect(() => {
-        initDb(); // Run once on mount
-    }, []); // Empty dependency array ensures it runs only once
+  const CreatePreset = async (persons, presetName) => {
+    if (!presetName || !presetName.trim()) {
+      console.error("Preset name is required and cannot be empty.");
+      return; // Exit if presetName is not valid
+    }
 
-    const CreateTabels = async() => {
-        console.log("Create Tabels");
-        await db.execAsync(`
-            PRAGMA journal_mode = WAL;
-            CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY NOT NULL, value TEXT NOT NULL, intValue INTEGER);
-            INSERT INTO test (value, intValue) VALUES ('test1', 123);
-            INSERT INTO test (value, intValue) VALUES ('test2', 456);
-            INSERT INTO test (value, intValue) VALUES ('test3', 789);
-            `);
-            console.log("Tabels Created");
-    };
+    try {
+      const result = await db.runAsync(
+        'INSERT INTO Presets (Name) VALUES ("?")',
+        [presetName]
+      );
 
+      let presetId = result.lastInsertRowId;
+      // Insert into Persons table
+      for (const person of persons) {
+        await db.execAsync(
+          'INSERT INTO Persons (Preset, Name, PhoneNumber) VALUES ("?", "?", "?");',
+          [presetId, person.name, person.number]
+        );
+      }
+      console.log("Preset and persons inserted successfully");
+    } catch (error) {
+      console.error("Error creating preset and inserting persons:", error);
+    }
+  };
 
-    return {
-       CreateTabels
-    };
+  return {
+    initDb,
+    CreateTabels,
+    CreatePreset,
+  };
 };
 
 export default ServiceCode;
-
