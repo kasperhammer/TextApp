@@ -10,7 +10,7 @@ const Code = (onClose) => {
   const [numberError, setNumberError] = useState("");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
-
+  const [presetNameError,setPresetNameError] = useState(false);
 
   const handlePress = (index) => {
     let item = kvps[index];
@@ -70,7 +70,7 @@ const Code = (onClose) => {
   const handleBackdropPress = (event) => {
     console.log("Close");
     if (event.target === event.currentTarget) {
-      onClose();
+      onClose(null,null);
     }
   };
 
@@ -111,8 +111,17 @@ const Code = (onClose) => {
 };
 
 const AddPreset = () => {
-  console.log("button Pressed");
-  onClose(kvps,presetNameString);
+  if(presetNameString == ""){
+    setPresetNameError(true);
+    return;
+  }else{
+    setPresetNameError(false);
+  }
+
+  if(kvps.length >= 1){
+    
+    onClose(kvps,presetNameString);
+  }
 };
 
   return {
@@ -134,7 +143,8 @@ const AddPreset = () => {
     selectedItemIndex,
     removeKeyboard,
     handlePress,
-    AddPreset
+    AddPreset,
+    presetNameError,
   };
 };
 

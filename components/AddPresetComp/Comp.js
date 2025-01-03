@@ -35,7 +35,11 @@ const Comp = ({ onClose }) => {
                   style={style.presetText}
                   placeholder="Insæt preset navn"
                 />
+               
               </View>
+              {code.presetNameError && (
+                   <Text style={style.errorText}>Du skal navngive dit preset</Text>
+                )}
             </View>
             <View style={style.modalBody}>
               {!code.isKeyboardVisible && (

@@ -20,6 +20,7 @@ import SlideToConfirm from "../../components/SlideToConfirm/SlideComp";
 
 const StartPage = () => {
   const code = useStartCode();
+
   const styles = useStartStyle();
   const handleConfirm = () => {
     Alert.alert("Confirmed!", "You completed the slide.");

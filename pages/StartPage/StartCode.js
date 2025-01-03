@@ -1,18 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Keyboard } from 'react-native';
-import ServiceCode from '../../service/ServiceCode';
+
+import { ColorSpace } from 'react-native-reanimated';
 
 const useStartCode = () => {
   const [textString , onChangeText] = useState("");
   const dismissKeyboard = () => {Keyboard.dismiss();};
   const [modalVisible, setModalVisible] = useState(false);
-  const serviceCode = ServiceCode();
+  
+  const [rows, setRows] = useState([]);
+ 
+
+  useEffect(() => {
+    const getData = async () => {
+      console.log("Fetching data...");
+      try{
+     
+        let fetchedRows = await global.serviceCode.GetPresets(); // Fetch rows
+        console.log("Fetched data:", fetchedRows); // Logs the fetched data
+      }catch(e){
+        console.log(e);
+      }
+    
+    };
+  
+    getData(); 
+  }, []); // Runs once on mount
 
   function AddPreset(kvps,name)
   {
     setModalVisible(false);
-    
-    serviceCode.CreatePreset(kvps,name);
+    if(kvps != null && name != null){
+      serviceCode.CreatePreset(kvps,name);
+    }
+
   }
 
 
@@ -27,4 +48,3 @@ const useStartCode = () => {
   };
   
   export default useStartCode;
-  

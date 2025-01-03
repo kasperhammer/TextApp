@@ -59,6 +59,7 @@ const Style = () => {
     },
     errorText: {
       color: "red",
+      textAlign:"center",
     },
     modalBody: {
       width: 320,
