@@ -6,13 +6,12 @@ var db;
 const ServiceCode = () => {
   const initDb = async () => {
     db = await SQLite.openDatabaseAsync("PresetDb.db");
-    await createTables(dbInstance); // Pass the db instance directly
+    await CreateTabels(); // Pass the db instance directly
+
   };
   
- 
-  
-
   const CreateTabels = async () => {
+    await AwaitDb();
     await db.execAsync(`PRAGMA journal_mode = WAL; 
         CREATE TABLE IF NOT EXISTS Presets (Id INTEGER PRIMARY KEY AUTOINCREMENT,Name TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS Persons (Id INTEGER PRIMARY KEY AUTOINCREMENT,Preset INTEGER NOT NULL,Name TEXT NOT NULL,
@@ -20,6 +19,7 @@ const ServiceCode = () => {
   };
 
   const CreatePreset = async (persons, presetName) => {
+    await AwaitDb();
     if (!presetName || !presetName.trim()) {
       console.error("Preset name is required and cannot be empty.");
       return; // Exit if presetName is not valid
@@ -46,28 +46,41 @@ const ServiceCode = () => {
   
 
   const GetPresets = async () => {
-    await dbReady();
+    await AwaitDb();
     let allRows = await db.getAllAsync("SELECT * FROM Presets");
     return allRows;
   };
 
+  const GetPeopleFromPreset = async (presetId) => {
+    await AwaitDb();
+    let persons = await db.getAllAsync("SELECT * FROM Persons WHERE Preset = (?)",[presetId]);  
+    return persons;
+  }
+
+  const AwaitDb = async () => {
+    console.log(db);
+    while(db == undefined){
+      await new Promise(r => setTimeout(r, 100));
+    }
+    return;
+  };
+   
   const ClearDb = async () => {
+    await AwaitDb();
+    console.log("Clear !§");
     await db.execAsync("Delete From Presets");
     await db.execAsync("Delete From Persons");
 
   };
 
-  const dbReady = async () => {
-    while(!db){
-      await new Promise(r => setTimeout(r, 100));
-    }
-  };
+
   
   return {
     initDb,
     CreateTabels,
     CreatePreset,
     GetPresets,
+    GetPeopleFromPreset,
   };
 };
 

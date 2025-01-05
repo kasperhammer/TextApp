@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert, Keyboard } from "react-native";
 
-const Code = (onClose) => {
+const Code = (onClose,preset) => {
   const [presetNameString, onPresetNameString] = useState("");
   const [kvps, setKvps] = useState([]); // Use state for kvps array
   const [nameString, onNameString] = useState("");
@@ -47,6 +47,22 @@ const Code = (onClose) => {
   };
 
   useEffect(() => {
+   if(preset != null){
+    onPresetNameString(preset.Name);
+    let tempkvps = [];
+    for (const person of preset.People) {
+      tempkvps.push({ name: person.Name, number: person.PhoneNumber });
+    }
+    setKvps(tempkvps);
+   }else{
+ 
+   }
+  },[]);
+
+
+  useEffect(() => {
+
+    
     // Add keyboard event listeners
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",

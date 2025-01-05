@@ -10,6 +10,7 @@ import ServiceCode from './service/ServiceCode'; // Import the ServiceCode insta
 const Stack = createStackNavigator();
 const serviceCode = ServiceCode(); // Create global ServiceCode instance
 serviceCode.initDb();
+
 global.serviceCode = serviceCode;
 
 export default function App() {

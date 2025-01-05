@@ -12,8 +12,8 @@ import AntDesign from "react-native-vector-icons/AntDesign"; // Import the AntDe
 import Code from "./Code";
 import Style from "./Style";
 
-const Comp = ({ onClose }) => {
-  const code = Code(onClose);
+const Comp = ({ onClose,preset }) => {
+  const code = Code(onClose,preset);
   const style = Style();
 
   return (

@@ -59,6 +59,34 @@ const useStartStyle = () => {
       textAlignVertical: 'top',
       fontSize:20,
     },
+    listContainer: {
+     
+      flexShrink: 1, // Allows it to shrink to the size of its content
+      flexGrow: 0, // Prevents it from taking additional space
+      maxHeight: 200, // Optional: restrict max height
+      width: "100%", // Ensures it spans the full width
+   
+     
+    },
+    listItem: {
+      backgroundColor: "#E7E7E7",
+      width: "100%",
+      alignItems: "center",
+      marginTop: 10,
+    },
+    listText: {
+      fontSize: 30,
+      fontWeight: "light",
+    },
+    selectedItem: {
+      backgroundColor: "#00B2FF", // Selected color
+    },
+    spacing:{
+      marginTop:10,
+      borderBottomWidth : 2,
+      width:"100%",
+      borderColor:'#00B2FF',
+    },
   });
 };
 
