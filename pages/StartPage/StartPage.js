@@ -38,7 +38,7 @@ const StartPage = () => {
             setModalVisible(!code.modalVisible);
           }}
         >
-          <AddPresetComp onClose={code.AddPreset} preset={code.selectedPreset}></AddPresetComp>
+          <AddPresetComp onClose={code.AddPreset} preset={code.selectedPreset} onDelete={code.DeletePreset} onUpdate={code.UpdatePreset}></AddPresetComp>
         </Modal>
 
         <View style={style.header}>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert, Keyboard } from "react-native";
 
-const Code = (onClose,preset) => {
+const Code = (onClose, preset, onDelete, onUpdate) => {
   const [presetNameString, onPresetNameString] = useState("");
   const [kvps, setKvps] = useState([]); // Use state for kvps array
   const [nameString, onNameString] = useState("");
@@ -10,17 +10,29 @@ const Code = (onClose,preset) => {
   const [numberError, setNumberError] = useState("");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
-  const [presetNameError,setPresetNameError] = useState(false);
+  const [presetNameError, setPresetNameError] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [editPerson, setEditPerson] = useState(false);
 
   const handlePress = (index) => {
-    let item = kvps[index];
-    onNameString(item.name);
-    onNumberString(item.number);
  
+    if (index == selectedItemIndex) {
+      setSelectedItemIndex(null);
+      onNameString("");
+      onNumberString("");
+      setEditPerson(false);
+    } else {
+      let item = kvps[index];
+      onNameString(item.name);
+      onNumberString(item.number);
+      setSelectedItemIndex(index);
+      setEditPerson(true);
+    }
   };
 
   const handleLongPress = (index) => {
     setSelectedItemIndex(index); // Set the index of the selected item
+    setEditPerson(false);
     Alert.alert(
       "Delete Item",
       "Are you sure you want to delete this item?",
@@ -39,6 +51,24 @@ const Code = (onClose,preset) => {
     );
   };
 
+  const handleDeletePress = () => {
+    Alert.alert(
+      "Delete Preset",
+      "Are you sure you want to delete this Preset?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => onDelete(preset.Id),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   const deleteItem = (index) => {
     const newKvps = [...kvps];
     newKvps.splice(index, 1); // Remove the item at the given index
@@ -47,22 +77,20 @@ const Code = (onClose,preset) => {
   };
 
   useEffect(() => {
-   if(preset != null){
-    onPresetNameString(preset.Name);
-    let tempkvps = [];
-    for (const person of preset.People) {
-      tempkvps.push({ name: person.Name, number: person.PhoneNumber });
+    if (preset != null) {
+      setEdit(true);
+      onPresetNameString(preset.Name);
+      let tempkvps = [];
+      for (const person of preset.People) {
+        tempkvps.push({ name: person.Name, number: person.PhoneNumber });
+      }
+      setKvps(tempkvps);
+    } else {
+      setEdit(false);
     }
-    setKvps(tempkvps);
-   }else{
- 
-   }
-  },[]);
-
+  }, []);
 
   useEffect(() => {
-
-    
     // Add keyboard event listeners
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -83,10 +111,10 @@ const Code = (onClose,preset) => {
   const removeKeyboard = () => {
     Keyboard.dismiss(); // Dismiss the keyboard
   };
+
   const handleBackdropPress = (event) => {
-    console.log("Close");
     if (event.target === event.currentTarget) {
-      onClose(null,null);
+      onClose(null, null);
     }
   };
 
@@ -115,30 +143,43 @@ const Code = (onClose,preset) => {
     }
 
     if (isValid) {
-      // Update the kvps state
-      kvps.push({ name: nameString, number: numberString });
-      setKvps(kvps);
+      if (editPerson) {
+        let kvpscopy = kvps;
+        kvpscopy[selectedItemIndex].name = nameString;
+        kvpscopy[selectedItemIndex].number = numberString;
+        setKvps(kvpscopy);
+        setEditPerson(false);
+        setSelectedItemIndex(null);
+
+      } else {
+        // Update the kvps state
+        kvps.push({ name: nameString, number: numberString });
+        setKvps(kvps);
+      }
 
       // Clear inputs after successful submission
       onNameString("");
       onNumberString("");
       Keyboard.dismiss();
     }
-};
+  };
 
-const AddPreset = () => {
-  if(presetNameString == ""){
-    setPresetNameError(true);
-    return;
-  }else{
-    setPresetNameError(false);
-  }
+  const AddPreset = () => {
+    if (presetNameString == "") {
+      setPresetNameError(true);
+      return;
+    } else {
+      setPresetNameError(false);
+    }
 
-  if(kvps.length >= 1){
-    
-    onClose(kvps,presetNameString);
-  }
-};
+    if (kvps.length >= 1) {
+      if (!edit) {
+        onClose(kvps, presetNameString);
+      } else {
+        onUpdate(preset, presetNameString, kvps);
+      }
+    }
+  };
 
   return {
     nameString,
@@ -161,6 +202,9 @@ const AddPreset = () => {
     handlePress,
     AddPreset,
     presetNameError,
+    handleDeletePress,
+    edit,
+    editPerson,
   };
 };
 

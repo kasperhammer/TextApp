@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Keyboard } from 'react-native';
-
 import { ColorSpace } from 'react-native-reanimated';
 
 const useStartCode = () => {
@@ -29,25 +28,24 @@ const handleLongPress = async (index) => {
 
 };
 
-  useEffect(() => {
-    const getData = async () => {
-      console.log("Fetching data...");
-      try{
-      
-        let fetchedRows = await global.serviceCode.GetPresets(); // Fetch rows
-        setRows(fetchedRows);
-      }catch(e){
-        console.log(e);
-      }
-    
-    };
+const getData = async () => {
+  console.log("Fetching data...");
+  try{
   
+    let fetchedRows = await global.serviceCode.GetPresets(); // Fetch rows
+    setRows(fetchedRows);
+  }catch(e){
+    console.log(e);
+  }
+
+};
+
+  useEffect(() => {
     getData(); 
   }, []); // Runs once on mount
 
   
-
-  async function AddPreset(kvps,name)
+  const AddPreset = async(kvps,name) =>
   {
     setModalVisible(false);
     if(kvps != null && name != null){
@@ -57,6 +55,74 @@ const handleLongPress = async (index) => {
     }
 
   }
+
+  const DeletePreset = async (presetId) => {
+    await serviceCode.DeletePreset(presetId);
+    setModalVisible(false);
+    getData(); 
+  }
+
+  const UpdatePreset = async (preset,presetName,kvps) => {
+    setModalVisible(false);
+    if(preset.Name != presetName){
+      if(serviceCode.UpdatePreset(preset.Id,presetName)){
+        let tempRows = rows;
+        for (const pre of tempRows) {
+          if(pre.Id == preset.Id){
+            pre.Name = presetName;
+            break;
+          }
+        }
+        setRows(tempRows);
+      }
+    }
+    for(const person of preset.People){
+      let match = false;
+      for(const item of kvps){
+        if(person.Name == item.name){
+          match = true;
+          break;
+        }
+        if(person.PhoneNumber == item.number){
+          match = true;
+          break;
+        }
+      }
+      if(!match){
+       await serviceCode.DeletePerson(person.Id);
+      }
+    }
+    for (let i = 0; i < kvps.length; i++) {
+      let match = false;
+      for (const person of preset.People) {
+        if(person.Name == kvps[i].name && person.PhoneNumber == kvps[i].number){
+          //No Change needed.
+          match = true;
+          break;
+        }
+
+        if(person.PhoneNumber == kvps[i].number && person.Name != kvps[i].name){
+          match = true;
+          await serviceCode.UpdatePerson({Id:person.Id,Name:kvps[i].name,Number:kvps[i].number});
+          //Update Persons name
+          break;
+  
+        }
+        if(person.PhoneNumber != kvps[i].number && person.Name == kvps[i].name){
+          match = true;
+          await serviceCode.UpdatePerson({Id:person.Id,Name:kvps[i].name,Number:kvps[i].number});
+          //Update Persons number
+          break;
+
+        }
+      }
+      if(!match){
+        await serviceCode.AddPerson({Name: kvps[i].name,Number: kvps[i].number},preset.Id);
+        //Add person to DB
+      }
+    }
+ 
+  };
 
 
     return {
@@ -72,6 +138,8 @@ const handleLongPress = async (index) => {
       selectedPreset,
       handleLongPress,
       setSelectedPreset,
+      DeletePreset,
+      UpdatePreset,
     };
   };
   

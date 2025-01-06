@@ -36,7 +36,6 @@ const Style = () => {
       textAlign: "center",
       fontSize: 25,
       color: "black",
-  
     },
     button: {
       backgroundColor: "white",
@@ -50,21 +49,14 @@ const Style = () => {
     textStyle: {
       textAlign: "center",
     },
-    modalText: {
-      marginTop: 10,
-      marginBottom: 10,
-      textAlign: "center",
-      fontWeight: "bold",
-      fontSize: 20,
-    },
+
     errorText: {
       color: "red",
-      textAlign:"center",
+      textAlign: "center",
     },
     modalBody: {
       width: 320,
       height: 400,
-      
     },
     input: {
       borderWidth: 1,
@@ -117,12 +109,10 @@ const Style = () => {
       borderBottomRightRadius: 5,
     },
     listContainer: {
-     
       flexShrink: 1, // Allows it to shrink to the size of its content
       flexGrow: 0, // Prevents it from taking additional space
       maxHeight: 200, // Optional: restrict max height
       width: "100%", // Ensures it spans the full width
-     
     },
     listItem: {
       backgroundColor: "#E7E7E7",
@@ -135,7 +125,7 @@ const Style = () => {
       fontWeight: "light",
     },
     AddPerson: {
-      marginTop:10,
+      marginTop: 10,
       display: "flex",
       alignItems: "center",
       justifyContent: "flex-start",
@@ -143,7 +133,24 @@ const Style = () => {
       flexShrink: 0, // Prevents it from shrinking below its content size
       width: "100%", // Ensures it spans the full width
     },
-    
+    headerFlow: {
+      justifyContent: "center",
+    },
+    modalText: {
+      marginTop: 10,
+      marginBottom: 10,
+      fontWeight: "bold",
+      fontSize: 20,
+      alignSelf:"center",
+    },
+    centerTrash: {
+      padding: 5,
+      position: "absolute",
+      alignSelf: "flex-end",
+    },
+    selectedItem: {
+      backgroundColor: "#00B2FF", // Selected color
+    },
   });
 };
 

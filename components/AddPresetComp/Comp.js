@@ -12,8 +12,8 @@ import AntDesign from "react-native-vector-icons/AntDesign"; // Import the AntDe
 import Code from "./Code";
 import Style from "./Style";
 
-const Comp = ({ onClose,preset }) => {
-  const code = Code(onClose,preset);
+const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
+  const code = Code(onClose, preset, onDelete,onUpdate);
   const style = Style();
 
   return (
@@ -25,8 +25,18 @@ const Comp = ({ onClose,preset }) => {
         <TouchableWithoutFeedback onPress={code.removeKeyboard}>
           <View style={style.modalView}>
             <View style={style.modalHeader}>
-              <View>
+              <View style={style.headerFlow}>
                 <Text style={style.modalText}>Opret Preset</Text>
+                {code.edit && (
+                  <TouchableOpacity
+                    onPress={code.handleDeletePress}
+                    style={style.centerTrash}
+                  >
+                    <View>
+                      <AntDesign name="delete" size={30} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                )}
               </View>
               <View style={style.presetNavn}>
                 <TextInput
@@ -35,11 +45,10 @@ const Comp = ({ onClose,preset }) => {
                   style={style.presetText}
                   placeholder="Insæt preset navn"
                 />
-               
               </View>
               {code.presetNameError && (
-                   <Text style={style.errorText}>Du skal navngive dit preset</Text>
-                )}
+                <Text style={style.errorText}>Du skal navngive dit preset</Text>
+              )}
             </View>
             <View style={style.modalBody}>
               {!code.isKeyboardVisible && (
@@ -50,7 +59,10 @@ const Comp = ({ onClose,preset }) => {
                     <TouchableOpacity
                       onPress={() => code.handlePress(index)}
                       onLongPress={() => code.handleLongPress(index)}
-                      style={[style.listItem]}
+                      style={[
+                        style.listItem,
+                        code.selectedItemIndex === index && style.selectedItem, // Conditional styling
+                      ]}
                     >
                       <Text style={style.listText}>{item.name}</Text>
                     </TouchableOpacity>
@@ -85,7 +97,8 @@ const Comp = ({ onClose,preset }) => {
                   style={[style.button]}
                   onPress={code.AddObject}
                 >
-                  <Text style={style.textStyle}>Tilføj Person</Text>
+
+                  <Text style={style.textStyle}>    {code.editPerson ? "Rediger Person" : "Tilføj Person"}</Text>
                 </TouchableOpacity>
               </View>
             </View>
