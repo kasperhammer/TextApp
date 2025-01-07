@@ -45,6 +45,7 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
                   onChangeText={code.onPresetNameString}
                   style={style.presetText}
                   placeholder="Insæt preset navn"
+                  cursorColor={"black"}
                 />
               </View>
               {code.presetNameError && (
@@ -76,6 +77,7 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
                 <TextInput
                   placeholder="Insæt navn"
                   value={code.nameString}
+                  cursorColor={"black"}
                   onChangeText={code.onNameString} // Update nameString when typing
                   style={style.input}
                 />
@@ -86,6 +88,8 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
                 <TextInput
                   placeholder="Insæt mobilnummer"
                   value={code.numberString}
+                  cursorColor={"black"}
+             
                   onChangeText={code.onNumberString} // Update numberString when typing
                   keyboardType="numeric" // Only show numeric keyboard
                   style={style.input}

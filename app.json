@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "TextApp",
+    "name": "EasyText",
     "slug": "TextApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,15 +19,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
-    
+      },
+      "package": "com.kallecoolgamer.TextApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font",
-      ["expo-sqlite",
+      [
+        "expo-sqlite",
         {
           "enableFTS": true,
           "useSQLCipher": true,
@@ -36,9 +37,17 @@
             "useSQLCipher": false
           },
           "ios": {
-            "customBuildFlags": ["-DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_SNAPSHOT=1"]
+            "customBuildFlags": [
+              "-DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_SNAPSHOT=1"
+            ]
           }
-        }]
-    ]
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7e8ac468-a407-4b1f-873f-b73c7f793e95"
+      }
+    }
   }
 }

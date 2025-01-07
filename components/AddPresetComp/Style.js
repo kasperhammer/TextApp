@@ -33,10 +33,12 @@ const Style = () => {
       width: 320,
     },
     presetText: {
-      textAlign: "center",
+      textAlign:"center",
+      width:320,
+      padding:10,
       fontSize: 25,
       color: "black",
-    },
+      },
     button: {
       backgroundColor: "white",
       borderWidth: 1,
@@ -65,6 +67,7 @@ const Style = () => {
       marginTop: 15,
       fontSize: 20,
       textAlign: "center",
+      padding:10,
     },
     modalFooter: {
       flex: 1,

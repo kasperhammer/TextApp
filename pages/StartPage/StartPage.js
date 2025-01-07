@@ -83,7 +83,12 @@ const StartPage = () => {
             style={style.input}
             onChangeText={code.onChangeText}
             value={code.textString}
+            cursorColor={"black"}
             placeholder="Indsæt ## for at have navnet med."
+            multiline={true}
+          
+          
+           
           />
           
         </View>

@@ -17,16 +17,18 @@
     "add": "^2.0.6",
     "expo": "~52.0.17",
     "expo-font": "~13.0.1",
+    "expo-sms": "~13.0.0",
     "expo-sqlite": "~15.0.4",
     "expo-status-bar": "~2.0.0",
     "react": "18.3.1",
     "react-native": "0.76.3",
     "react-native-gesture-handler": "^2.21.2",
     "react-native-reanimated": "^3.16.5",
+    "react-native-safe-area-context": "^5.0.0",
+    "react-native-screens": "^4.4.0",
     "react-native-svg": "^15.10.1",
     "react-native-vector-icons": "^10.2.0",
-    "react-navigation": "^5.0.0",
-    "expo-sms": "~13.0.0"
+    "react-navigation": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
