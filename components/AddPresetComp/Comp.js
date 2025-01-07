@@ -16,6 +16,7 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
   const code = Code(onClose, preset, onDelete,onUpdate);
   const style = Style();
 
+  
   return (
     <TouchableWithoutFeedback
       onPress={code.handleBackdropPress} // Dismisses only when touching outside

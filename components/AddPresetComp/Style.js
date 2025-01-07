@@ -111,7 +111,7 @@ const Style = () => {
     listContainer: {
       flexShrink: 1, // Allows it to shrink to the size of its content
       flexGrow: 0, // Prevents it from taking additional space
-      maxHeight: 200, // Optional: restrict max height
+ height:150,
       width: "100%", // Ensures it spans the full width
     },
     listItem: {

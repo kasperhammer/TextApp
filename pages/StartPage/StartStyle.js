@@ -33,13 +33,13 @@ const useStartStyle = () => {
     addPresetText: {
       color: "#00B2FF",
       fontSize: 30,
-      paddingLeft:10,
-      paddingRight:10,
+      paddingLeft: 10,
+      paddingRight: 10,
     },
     addPresetPlus: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
 
       backgroundColor: "#00B2FF",
       height: 50,
@@ -52,21 +52,18 @@ const useStartStyle = () => {
       margin: 12,
       borderWidth: 1,
       padding: 10,
-      borderColor:'#00B2FF',
-      borderRadius:5,
-      height:250,
-      width:'80%',
-      textAlignVertical: 'top',
-      fontSize:20,
+      borderColor: "#00B2FF",
+      borderRadius: 5,
+      height: 250,
+      width: "80%",
+      textAlignVertical: "top",
+      fontSize: 20,
     },
     listContainer: {
-     
       flexShrink: 1, // Allows it to shrink to the size of its content
       flexGrow: 0, // Prevents it from taking additional space
       maxHeight: 200, // Optional: restrict max height
       width: "100%", // Ensures it spans the full width
-   
-     
     },
     listItem: {
       backgroundColor: "#E7E7E7",
@@ -81,11 +78,19 @@ const useStartStyle = () => {
     selectedItem: {
       backgroundColor: "#00B2FF", // Selected color
     },
-    spacing:{
-      marginTop:10,
-      borderBottomWidth : 2,
-      width:"100%",
-      borderColor:'#00B2FF',
+    spacing: {
+      marginTop: 10,
+      borderBottomWidth: 2,
+      width: "100%",
+      borderColor: "#00B2FF",
+    },
+    errorCode: {
+      color: "red",
+      textAlign: "center",
+      fontWeight: "bold",
+    },
+    listView: {
+      height: 180,
     },
   });
 };

@@ -19,7 +19,19 @@ const useSlideCode = (onConfirm) => {
           toValue: sliderWidth - 50,
           duration: 200,
           useNativeDriver: false,
-        }).start(() => onConfirm && onConfirm());
+        }).start(() => {
+          // Trigger the confirmation callback
+          if (onConfirm) onConfirm();
+
+          // Wait for 1 second, then reset the slider
+          setTimeout(() => {
+            Animated.timing(slideAnim, {
+              toValue: 0,
+              duration: 200,
+              useNativeDriver: false,
+            }).start();
+          }, 1000);
+        });
       } else {
         // Reset if not slid far enough
         Animated.timing(slideAnim, {
