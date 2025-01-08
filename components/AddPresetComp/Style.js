@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const Style = () => {
-  return StyleSheet.create({
+const Style = StyleSheet.create({
     centeredView: {
       display: "flex",
       height: 720,
@@ -155,6 +154,6 @@ const Style = () => {
       backgroundColor: "#00B2FF", // Selected color
     },
   });
-};
+
 
 export default Style;

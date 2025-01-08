@@ -6,7 +6,7 @@ import Style from "./Style";
 
 const Page = ({  }) => {
   const code = Code();
-  const style = Style();
+
 
 
   return (

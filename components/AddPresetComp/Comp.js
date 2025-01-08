@@ -14,7 +14,7 @@ import Style from "./Style";
 
 const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
   const code = Code(onClose, preset, onDelete,onUpdate);
-  const style = Style();
+ 
 
   
   return (
@@ -22,16 +22,16 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
       onPress={code.handleBackdropPress} // Dismisses only when touching outside
       accessible={false}
     >
-      <SafeAreaView style={style.centeredView}>
+      <SafeAreaView style={Style.centeredView}>
         <TouchableWithoutFeedback onPress={code.removeKeyboard}>
-          <View style={style.modalView}>
-            <View style={style.modalHeader}>
-              <View style={style.headerFlow}>
-                <Text style={style.modalText}>Opret Preset</Text>
+          <View style={Style.modalView}>
+            <View style={Style.modalHeader}>
+              <View style={Style.headerFlow}>
+                <Text style={Style.modalText}>Opret Preset</Text>
                 {code.edit && (
                   <TouchableOpacity
                     onPress={code.handleDeletePress}
-                    style={style.centerTrash}
+                    style={Style.centerTrash}
                   >
                     <View>
                       <AntDesign name="delete" size={30} color="black" />
@@ -39,20 +39,20 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
                   </TouchableOpacity>
                 )}
               </View>
-              <View style={style.presetNavn}>
+              <View style={Style.presetNavn}>
                 <TextInput
                   value={code.presetNameString}
                   onChangeText={code.onPresetNameString}
-                  style={style.presetText}
+                  style={Style.presetText}
                   placeholder="Insæt preset navn"
                   cursorColor={"black"}
                 />
               </View>
               {code.presetNameError && (
-                <Text style={style.errorText}>Du skal navngive dit preset</Text>
+                <Text style={Style.errorText}>Du skal navngive dit preset</Text>
               )}
             </View>
-            <View style={style.modalBody}>
+            <View style={Style.modalBody}>
               {!code.isKeyboardVisible && (
                 <FlatList
                   data={code.kvps}
@@ -62,27 +62,27 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
                       onPress={() => code.handlePress(index)}
                       onLongPress={() => code.handleLongPress(index)}
                       style={[
-                        style.listItem,
-                        code.selectedItemIndex === index && style.selectedItem, // Conditional styling
+                        Style.listItem,
+                        code.selectedItemIndex === index && Style.selectedItem, // Conditional styling
                       ]}
                     >
-                      <Text style={style.listText}>{item.name}</Text>
+                      <Text style={Style.listText}>{item.name}</Text>
                     </TouchableOpacity>
                   )}
-                  style={style.listContainer}
+                  style={Style.listContainer}
                 />
               )}
 
-              <View style={style.AddPerson}>
+              <View style={Style.AddPerson}>
                 <TextInput
                   placeholder="Insæt navn"
                   value={code.nameString}
                   cursorColor={"black"}
                   onChangeText={code.onNameString} // Update nameString when typing
-                  style={style.input}
+                  style={Style.input}
                 />
                 {code.nameError && (
-                  <Text style={style.errorText}>{code.nameError}</Text>
+                  <Text style={Style.errorText}>{code.nameError}</Text>
                 )}
 
                 <TextInput
@@ -92,31 +92,31 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
              
                   onChangeText={code.onNumberString} // Update numberString when typing
                   keyboardType="numeric" // Only show numeric keyboard
-                  style={style.input}
+                  style={Style.input}
                 />
                 {code.numberError && (
-                  <Text style={style.errorText}>{code.numberError}</Text>
+                  <Text style={Style.errorText}>{code.numberError}</Text>
                 )}
 
                 <TouchableOpacity
-                  style={[style.button]}
+                  style={[Style.button]}
                   onPress={code.AddObject}
                 >
 
-                  <Text style={style.textStyle}>    {code.editPerson ? "Rediger Person" : "Tilføj Person"}</Text>
+                  <Text style={Style.textStyle}>    {code.editPerson ? "Rediger Person" : "Tilføj Person"}</Text>
                 </TouchableOpacity>
               </View>
             </View>
 
-            <View style={style.modalFooter}>
-              <View style={style.ModalFooterBorder}>
-                <View style={style.addPresetContainer}>
+            <View style={Style.modalFooter}>
+              <View style={Style.ModalFooterBorder}>
+                <View style={Style.addPresetContainer}>
                   <TouchableOpacity
-                    style={style.addPresetButton}
+                    style={Style.addPresetButton}
                     onPress={code.AddPreset} // Correctly call the function
                   >
-                    <Text style={style.addPresetText}>Confirm Preset</Text>
-                    <View style={style.addPresetPlus}>
+                    <Text style={Style.addPresetText}>Confirm Preset</Text>
+                    <View style={Style.addPresetPlus}>
                       <AntDesign name="plus" size={40} color="white" />
                     </View>
                   </TouchableOpacity>

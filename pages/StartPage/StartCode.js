@@ -9,12 +9,15 @@ const useStartCode = () => {
     Keyboard.dismiss();
   };
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible1, setModalVisible1] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null); // Track selected index
   const [rows, setRows] = useState([]);
   const [selectedPreset, setSelectedPreset] = useState(null);
-  const [errorCode,setErrorCode] = useState(false);
-  const [errorText,setErrorText] = useState(false);
-
+  const [errorCode, setErrorCode] = useState(false);
+  const [errorText, setErrorText] = useState(false);
+  const [isTyping, setisTyping] = useState(false);
+  const [customPreset, setCustomPreset] = useState(null);
+  var lastTap = Date.now();
 
   const sendSms = async () => {
     if (selectedIndex == null) {
@@ -22,39 +25,68 @@ const useStartCode = () => {
       setErrorCode(true);
       return;
     }
-  
+
     if (textString == "") {
       console.log("Text Error");
       setErrorText(true);
       return;
     }
-  
-    let people = await serviceCode.GetPeopleFromPreset(rows[selectedIndex].Id);
-    console.log(people);
-  
+
+    let people = null;
+    if (customPreset != null) {
+      people = customPreset.People;
+    } else {
+      people = await serviceCode.GetPeopleFromPreset(rows[selectedIndex].Id);
+    }
+
     for (const person of people) {
       // Replace ## with the person's Name in the textString
       const personalizedText = textString.replace(/##/g, person.Name);
-  
+
       // Send the SMS with the personalized message
       const { result } = await SMS.sendSMSAsync(
         [person.PhoneNumber],
         personalizedText
       );
-
-
     }
-
-
+    onChangeText("");
   };
-  
 
-  const handlePress = (index) => {
-    if (index == selectedIndex) {
-      setSelectedIndex(null);
+  const handlePress = async (index) => {
+    const now = Date.now();
+    const DOUBLE_TAP_DELAY = 300; // 300ms for double tap detection
+
+    //register if double tap occur
+    if (lastTap && now - lastTap < DOUBLE_TAP_DELAY) {
+      // It's a double-tap
+      //The Action should ony be registered if a double tap occurs on an
+      //already selected item
+      if (selectedIndex == null) {
+        setSelectedIndex(index);
+        console.log(`Double-tap detected on item ${index}`);
+
+        let people = await serviceCode.GetPeopleFromPreset(rows[index].Id);
+
+        let preset = {
+          Id: rows[index].Id,
+          Name: rows[index].Name,
+          People: people,
+        };
+        setSelectedPreset(preset);
+        setModalVisible1(true);
+        // Add your double-tap action here
+      }
     } else {
-      setSelectedIndex(index); // Set the selected index
-      setErrorCode(false);
+      //if Not set time of tap, to register time diffrence
+      lastTap = now;
+      setCustomPreset(null);
+      //Logic to either select or deselect item in list
+      if (index == selectedIndex) {
+        setSelectedIndex(null);
+      } else {
+        setSelectedIndex(index); // Set the selected index
+        setErrorCode(false);
+      }
     }
   };
 
@@ -76,17 +108,15 @@ const useStartCode = () => {
   };
 
   useEffect(() => {
-    
-    if(errorText){
-      if(textString != ""){
+    if (errorText) {
+      if (textString != "") {
         setErrorText(false);
       }
     }
-  },[textString])
+  }, [textString]);
 
   useEffect(() => {
     getData();
-  
   }, []); // Runs once on mount
 
   const AddPreset = async (kvps, name) => {
@@ -183,12 +213,25 @@ const useStartCode = () => {
     }
   };
 
+  const SelectPeopleClose = (newPreset) => {
+    console.log(newPreset);
+    if (newPreset != null) {
+      setCustomPreset(newPreset);
+    }else{
+      setCustomPreset(null);
+    }
+  
+    setModalVisible1(false);
+  };
+
   return {
     textString,
     onChangeText,
     dismissKeyboard,
     modalVisible,
     setModalVisible,
+    modalVisible1,
+    setModalVisible1,
     AddPreset,
     rows,
     handlePress,
@@ -201,6 +244,9 @@ const useStartCode = () => {
     sendSms,
     errorCode,
     errorText,
+    isTyping,
+    setisTyping,
+    SelectPeopleClose,
   };
 };
 

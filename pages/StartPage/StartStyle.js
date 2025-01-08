@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const useStartStyle = () => {
-  return StyleSheet.create({
+const Style = StyleSheet.create({
     container: {
       flex: 1,
     },
@@ -93,6 +92,6 @@ const useStartStyle = () => {
       height: 180,
     },
   });
-};
 
-export default useStartStyle;
+
+export default Style;
