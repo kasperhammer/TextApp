@@ -65,11 +65,11 @@ const StartPage = () => {
            transparent={true}
            visible={code.completeMessage}
            onRequestClose={() => {
-             code.setCompleteMessage(!code.completeMessage); // Corrected reference
+             code.setCompleteMessage(false); // Corrected reference
            }}
         >
               <Checkmark onClose={() => {
-             code.setCompleteMessage(!code.completeMessage); // Corrected reference
+             code.setCompleteMessage(false); // Corrected reference
            }}/>
         </Modal>
 
