@@ -19,7 +19,7 @@ import AddPresetComp from "../../components/AddPresetComp/Comp";
 import SelectPeopleComp from "../../components/SelectPeopleComp/Comp";
 import SlideToConfirm from "../../components/SlideToConfirm/SlideComp";
 import { FlatList } from "react-native-gesture-handler";
-
+import Checkmark from "../../components/Checkmark/Comp";
 //Mangler Confirm animation når man har skrevet til alle på listen.
 //Del presets med andre
 //Man skal kunne vedhæfte filer/billeder
@@ -60,6 +60,19 @@ const StartPage = () => {
           ></SelectPeopleComp>
         </Modal>
 
+        <Modal
+           animationType="fade"
+           transparent={true}
+           visible={code.completeMessage}
+           onRequestClose={() => {
+             code.setCompleteMessage(!code.completeMessage); // Corrected reference
+           }}
+        >
+              <Checkmark onClose={() => {
+             code.setCompleteMessage(!code.completeMessage); // Corrected reference
+           }}/>
+        </Modal>
+
         <View style={Style.header}>
           <Text style={Style.headerText}>EasyText</Text>
         </View>
@@ -90,6 +103,8 @@ const StartPage = () => {
         {code.errorCode && (
           <Text style={Style.errorCode}>Du skal vælge et Preset !</Text>
         )}
+     
+ 
         <View style={Style.addPresetContainer}>
           <TouchableOpacity
             onPress={() => {

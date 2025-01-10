@@ -15,7 +15,8 @@ global.serviceCode = serviceCode;
 
 export default function App() {
   return (
-    <NavigationContainer>
+
+   <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Start" component={StartPage} />
       </Stack.Navigator>

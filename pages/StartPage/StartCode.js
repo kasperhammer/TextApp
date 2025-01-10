@@ -17,6 +17,7 @@ const useStartCode = () => {
   const [errorText, setErrorText] = useState(false);
   const [isTyping, setisTyping] = useState(false);
   const [customPreset, setCustomPreset] = useState(null);
+  const [completeMessage,setCompleteMessage] = useState(false);
   var lastTap = Date.now();
 
   const sendSms = async () => {
@@ -50,6 +51,7 @@ const useStartCode = () => {
       );
     }
     onChangeText("");
+    setCompleteMessage(true);
   };
 
   const handlePress = async (index) => {
@@ -247,6 +249,8 @@ const useStartCode = () => {
     isTyping,
     setisTyping,
     SelectPeopleClose,
+    setCompleteMessage,
+    completeMessage,
   };
 };
 
