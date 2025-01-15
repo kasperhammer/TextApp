@@ -136,22 +136,35 @@ const Style = StyleSheet.create({
       width: "100%", // Ensures it spans the full width
     },
     headerFlow: {
-      justifyContent: "center",
+      justifyContent: "space-between",
+        flexDirection:"row",
+     alignItems:"center",
+        textAlign:"center",
     },
     modalText: {
       marginTop: 10,
       marginBottom: 10,
       fontWeight: "bold",
       fontSize: 20,
-      alignSelf:"center",
+  
     },
     centerTrash: {
       padding: 5,
-      position: "absolute",
-      alignSelf: "flex-end",
+    
     },
     selectedItem: {
       backgroundColor: "#00B2FF", // Selected color
+    },
+    altheader:{
+      flexDirection:"column",
+      alignItems:"center",
+      justifyContent:"center",
+   
+    },
+    download:{
+        position:"absolute",
+        alignSelf:"flex-end",
+        padding:5,
     },
   });
 

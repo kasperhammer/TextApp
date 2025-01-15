@@ -11,12 +11,10 @@ import {
 import AntDesign from "react-native-vector-icons/AntDesign"; // Import the AntDesign icon
 import Code from "./Code";
 import Style from "./Style";
+import Dialog from "react-native-dialog";
+const Comp = ({ onClose, preset, onDelete, onUpdate }) => {
+  const code = Code(onClose, preset, onDelete, onUpdate);
 
-const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
-  const code = Code(onClose, preset, onDelete,onUpdate);
- 
-
-  
   return (
     <TouchableWithoutFeedback
       onPress={code.handleBackdropPress} // Dismisses only when touching outside
@@ -26,9 +24,19 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
         <TouchableWithoutFeedback onPress={code.removeKeyboard}>
           <View style={Style.modalView}>
             <View style={Style.modalHeader}>
-              <View style={Style.headerFlow}>
-                <Text style={Style.modalText}>Opret Preset</Text>
-                {code.edit && (
+              {code.edit && (
+                <View style={Style.headerFlow}>
+                  <TouchableOpacity
+                    onPress={code.SharePreset}
+                    style={Style.centerTrash}
+                  >
+                    <View>
+                      <AntDesign name="sharealt" size={30} color="black" />
+                    </View>
+                  </TouchableOpacity>
+
+                  <Text style={Style.modalText}>Opret Preset</Text>
+
                   <TouchableOpacity
                     onPress={code.handleDeletePress}
                     style={Style.centerTrash}
@@ -37,8 +45,43 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
                       <AntDesign name="delete" size={30} color="black" />
                     </View>
                   </TouchableOpacity>
-                )}
-              </View>
+                </View>
+              )}
+              {!code.edit && (
+                <View style={Style.altheader}>
+                  <Text style={Style.modalText}>Opret Preset</Text>
+                  <TouchableOpacity
+                    style={Style.download}
+                    onPress={code.handleDownloadPress} // Call the download handler
+                  >
+                    <View>
+                      <AntDesign name="download" size={30} color="black" />
+                    </View>
+                  </TouchableOpacity>
+
+                  <Dialog.Container visible={code.isDialogVisible}>
+                    <Dialog.Title>Import Preset</Dialog.Title>
+                    <Dialog.Description>
+                      Paste your preset below to import it.
+                    </Dialog.Description>
+                    <Dialog.Input
+                      placeholder="Paste your preset here..."
+                      value={code.dialogInput}
+                      onChangeText={code.setDialogInput}
+                      multiline
+                    />
+                    <Dialog.Button
+                      label="Cancel"
+                      onPress={code.handleDialogCancel}
+                    />
+                    <Dialog.Button
+                      label="Import"
+                      onPress={code.handleDialogConfirm}
+                    />
+                  </Dialog.Container>
+                </View>
+              )}
+
               <View style={Style.presetNavn}>
                 <TextInput
                   value={code.presetNameString}
@@ -89,7 +132,6 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
                   placeholder="Insæt mobilnummer"
                   value={code.numberString}
                   cursorColor={"black"}
-             
                   onChangeText={code.onNumberString} // Update numberString when typing
                   keyboardType="numeric" // Only show numeric keyboard
                   style={Style.input}
@@ -102,8 +144,10 @@ const Comp = ({ onClose, preset, onDelete,onUpdate }) => {
                   style={[Style.button]}
                   onPress={code.AddObject}
                 >
-
-                  <Text style={Style.textStyle}>    {code.editPerson ? "Rediger Person" : "Tilføj Person"}</Text>
+                  <Text style={Style.textStyle}>
+                    {" "}
+                    {code.editPerson ? "Rediger Person" : "Tilføj Person"}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>

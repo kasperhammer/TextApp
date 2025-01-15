@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert, Keyboard } from "react-native";
-
+import * as Clipboard from 'expo-clipboard';
+import Dialog from "react-native-dialog";
 const Code = (onClose, preset, onDelete, onUpdate) => {
   const [presetNameString, onPresetNameString] = useState("");
   const [kvps, setKvps] = useState([]); // Use state for kvps array
@@ -13,6 +14,8 @@ const Code = (onClose, preset, onDelete, onUpdate) => {
   const [presetNameError, setPresetNameError] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editPerson, setEditPerson] = useState(false);
+  const [isDialogVisible, setDialogVisible] = useState(false);
+  const [dialogInput, setDialogInput] = useState("");
 
   const handlePress = (index) => {
  
@@ -181,6 +184,40 @@ const Code = (onClose, preset, onDelete, onUpdate) => {
     }
   };
 
+  const SharePreset = async () => {
+    if(edit){
+     
+      await Clipboard.setStringAsync(JSON.stringify(preset));
+
+    }
+  };
+  
+  const handleDownloadPress = async () => {
+    const clipboardContent = await Clipboard.getStringAsync(); // Get clipboard content
+    setDialogInput(clipboardContent || ""); // Prefill with clipboard content
+    setDialogVisible(true); // Show the dialog
+  };
+  
+  const handleDialogCancel = () => {
+    setDialogVisible(false); // Hide the dialog
+  };
+
+  const handleDialogConfirm = () => {
+    try {
+      const importedPreset = JSON.parse(dialogInput); // Parse the JSON input
+      onPresetNameString(importedPreset.Name);
+      tempkvps = [];
+      for(const pers of importedPreset.People){
+        tempkvps.push({ name: pers.Name, number: pers.PhoneNumber });
+      }
+      setKvps(tempkvps);
+      setDialogVisible(false); // Close the dialog
+      Alert.alert("Success", "Preset imported successfully!");
+    } catch (error) {
+      Alert.alert("Error", "Invalid preset format. Please check your input.");
+    }
+  };
+
   return {
     nameString,
     onNameString,
@@ -205,6 +242,14 @@ const Code = (onClose, preset, onDelete, onUpdate) => {
     handleDeletePress,
     edit,
     editPerson,
+    SharePreset,
+    handleDownloadPress,
+    isDialogVisible,
+    dialogInput,
+    setDialogInput,
+    handleDialogCancel,
+    handleDialogConfirm,
+
   };
 };
 
